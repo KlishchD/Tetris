@@ -1,11 +1,10 @@
 ﻿#pragma once
-#include <cstdint>
+
+#define GLEW_STATIC
+
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
+
 #include <vector>
 
-enum GridFieldStatus: uint8_t
-{
-    GFS_Taken,
-    GFS_Free
-};
-
-using Grid = std::vector<std::vector<GridFieldStatus>>;
+using Grid = std::vector<std::vector<bool>>;

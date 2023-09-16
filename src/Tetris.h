@@ -5,11 +5,12 @@
 class Tetris
 {
 public:
-    Tetris(std::vector<Grid> grids): m_Grids(std::move(grids))
-    {
-    }
-    
-    const Grid& GetGrid(int32_t rotation) const { return m_Grids[rotation % 4]; }
+    Tetris() {}
+    Tetris(std::vector<Grid> grids);
+
+    const Grid& GetGrid(int32_t rotation) const;
+
+    int32_t GetHeight(int32_t rotation) const;
 private:
     std::vector<Grid> m_Grids;
 };
