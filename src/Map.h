@@ -13,6 +13,8 @@ struct MapTile
         IsCollisionTaken = false;
         RenderColorId = 0;
     }
+
+    MapTile& operator=(const MapTile& tile) = default;
 };
 
 using MapGrid = std::vector<std::vector<MapTile>>;

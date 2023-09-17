@@ -132,6 +132,9 @@ std::vector<float> Renderer::GenerateTetrisData(const Grid& grid, int32_t colorI
 {
     std::vector<float> data;
 
+    int32_t sizeY = grid.size();
+    int32_t sizeX = grid[0].size();
+    
     for (int32_t y = 0; y < grid.size(); ++y)
     {
         for (int32_t x = 0; x < grid[y].size(); ++x)
@@ -147,10 +150,10 @@ std::vector<float> Renderer::GenerateTetrisData(const Grid& grid, int32_t colorI
                 color = m_ColorLibrary.GetColor(1);
             }
 
-            addPoint(data, x       * m_SquareSize, y       * m_SquareSize, color, 0.0f, 0.0f);
-            addPoint(data, x       * m_SquareSize, (y + 1) * m_SquareSize, color, 0.0f, 1.0f);
-            addPoint(data, (x + 1) * m_SquareSize, (y + 1) * m_SquareSize, color, 1.0f, 1.0f);
-            addPoint(data, (x + 1) * m_SquareSize, y       * m_SquareSize, color, 1.0f, 0.0f);
+            addPoint(data, (sizeX - x)     * m_SquareSize, (sizeY - y)     * m_SquareSize, color, 0.0f, 0.0f);
+            addPoint(data, (sizeX - x)     * m_SquareSize, (sizeY - y - 1) * m_SquareSize, color, 0.0f, 1.0f);
+            addPoint(data, (sizeX - x - 1) * m_SquareSize, (sizeY - y - 1) * m_SquareSize, color, 1.0f, 1.0f);
+            addPoint(data, (sizeX - x - 1) * m_SquareSize, (sizeY - y)     * m_SquareSize, color, 1.0f, 0.0f);
         }
     }
     

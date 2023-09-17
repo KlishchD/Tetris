@@ -9,7 +9,6 @@ Map::Map(int32_t sizeX, int32_t sizeY): m_SizeX(sizeX), m_SizeY(sizeY),
 
 bool Map::WillCollide(Vector2i position, const Tetris& tetris, int32_t rotation) const
 {
-    position.y++;
     const Grid& grid = tetris.GetGrid(rotation);
         
     for (int32_t y = 0; y < grid.size(); ++y)
@@ -71,6 +70,16 @@ void Map::RemoveTetris(Vector2i position, const Tetris& tetris, int32_t rotation
             }
         }
     }
+    for (int32_t i = 0; i < m_SizeY; ++i)
+    {
+        for (int32_t j = 0; j < m_SizeX; ++j)
+        {
+            if (m_Map[i][j].IsCollisionTaken != (bool)m_Map[i][j].RenderColorId)
+            {
+                printf("SHIT");
+            }
+        }
+    }
 }
 
 void Map::AddTetris(Vector2i position, const Tetris& tetris, int32_t rotation, int32_t ColorId)
@@ -85,6 +94,16 @@ void Map::AddTetris(Vector2i position, const Tetris& tetris, int32_t rotation, i
             {
                 m_Map[position.y + y][position.x + x].IsCollisionTaken = true;
                 m_Map[position.y + y][position.x + x].RenderColorId = ColorId;
+            }
+        }
+    }
+    for (int32_t i = 0; i < m_SizeY; ++i)
+    {
+        for (int32_t j = 0; j < m_SizeX; ++j)
+        {
+            if (m_Map[i][j].IsCollisionTaken != (bool)m_Map[i][j].RenderColorId)
+            {
+                printf("SHIT");
             }
         }
     }
@@ -152,12 +171,6 @@ void Map::DropLine()
     
     for (int32_t y = LineRow; y > 0; --y)
     {
-        bool IsLine = true;
-        for (int32_t x = 0; x < m_SizeX; ++x)
-        {
-            IsLine = IsLine && (m_Map[y][x].IsCollisionTaken);
-        }
-        
         for (int32_t x = 0; x < m_SizeX; ++x)
         {
             m_Map[y][x] = m_Map[y - 1][x];
@@ -168,6 +181,18 @@ void Map::DropLine()
     {
         m_Map[0][x].Reset();
     }
+
+    for (int32_t i = 0; i < m_SizeY; ++i)
+    {
+        for (int32_t j = 0; j < m_SizeX; ++j)
+        {
+            if (m_Map[i][j].IsCollisionTaken != (bool)m_Map[i][j].RenderColorId)
+            {
+                printf("SHIT");
+            }
+        }
+    }
+    
 }
 
 Map& Map::operator=(Map& right)

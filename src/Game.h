@@ -32,6 +32,9 @@ private:
     Tetris m_Tetris;
     int32_t m_TetrisColorId;
 
+    int32_t m_DeltaRotation = 0;
+    int32_t m_DeltaMove = 0;
+    
     int32_t m_Rotation;
     Vector2i m_Position;
 

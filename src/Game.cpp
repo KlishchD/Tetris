@@ -59,9 +59,20 @@ void Game::Update(float DeltaTime)
 {
     if (m_IsAlive)
     {
+        if (m_Map.CanMoveTo({m_Position.x + m_DeltaMove, m_Position.y}, m_Tetris, m_Rotation + m_DeltaRotation))
+        {
+            m_Map.RemoveTetrisFromRendering(m_Position, m_Tetris, m_Rotation);
+            m_Position.x += m_DeltaMove;
+            m_Rotation += m_DeltaRotation;
+            m_Map.AddTetrisForRendering(m_Position, m_Tetris, m_Rotation, m_TetrisColorId);
+        }
+
+        m_DeltaMove = 0;
+        m_DeltaRotation = 0;
+        
         m_Map.RemoveTetrisFromRendering(m_Position, m_Tetris, m_Rotation);
 
-        if (m_Map.WillCollide(m_Position, m_Tetris, m_Rotation))
+        if (m_Map.WillCollide({m_Position.x, m_Position.y + 1}, m_Tetris, m_Rotation))
         {
             m_Map.AddTetris(m_Position, m_Tetris, m_Rotation, m_TetrisColorId);
 
@@ -117,24 +128,15 @@ void Game::Update(float DeltaTime)
     Renderer::Get().DrawField(m_Map);
     Renderer::Get().DrawNextTetris(m_NextTetris, m_NextTetrisColorId);
     
-    std::this_thread::sleep_for(100ms);
+    std::this_thread::sleep_for(150ms);
 }
 
 void Game::Move(int32_t move)
 {
-    if (m_IsAlive && m_Map.CanMoveTo({m_Position.x + move, m_Position.y}, m_Tetris, m_Rotation))
-    {
-        m_Map.RemoveTetrisFromRendering(m_Position, m_Tetris, m_Rotation);
-        m_Position.x += move;
-        m_Map.AddTetrisForRendering(m_Position, m_Tetris, m_Rotation, m_TetrisColorId);
-    }
+    m_DeltaMove += move;
 }
 
 void Game::Rotate(int32_t rotation)
 {
-    if (m_IsAlive && m_Map.CanMoveTo(m_Position, m_Tetris, m_Rotation + rotation)) {
-        m_Map.RemoveTetrisFromRendering(m_Position, m_Tetris, m_Rotation);
-        m_Rotation += rotation;
-        m_Map.AddTetrisForRendering(m_Position, m_Tetris, m_Rotation, m_TetrisColorId);
-    }
+    m_DeltaRotation += rotation;
 }
